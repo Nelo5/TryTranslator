@@ -191,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> languageCodeList = TranslateLanguage.getAllLanguages();
         for (String languageCode:languageCodeList){
             String languageTitle = new Locale(languageCode).getDisplayLanguage();
+            languageTitle = languageTitle.substring(0, 1).toUpperCase() + languageTitle.substring(1);
             ModelLanguage modelLanguage = new ModelLanguage(languageCode,languageTitle);
             languageArrayList.add(modelLanguage);
         }

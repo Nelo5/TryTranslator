@@ -31,7 +31,7 @@
             android:textAlignment="center"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:text="Исходный язык"
+            android:text="Английский"
             android:freezesText="true"/>
 
         <Button
@@ -58,7 +58,7 @@
             android:textAlignment="center"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:text="Целевой язык"
+            android:text="Русский"
             android:freezesText="true"/>
 
     </LinearLayout>
