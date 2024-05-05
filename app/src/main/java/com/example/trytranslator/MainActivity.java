@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText sourceLanguageEt;
     private TextView destinationLanguageTv;
-    private MaterialButton sourceLanguageChooseBtn;
-    private MaterialButton destinationLanguageChoseBtn;
-    private MaterialButton translateBtn;
-    private Button switchLanguageBtn;
+    private Button sourceLanguageChooseBtn;
+    private Button destinationLanguageChoseBtn;
+    private Button translateBtn;
+    private Button switchLanguageBtn,btn_camera, btn_gallery;;
     private TranslatorOptions translatorOptions;
     private Translator translator;
     private ProgressDialog progressDialog;
@@ -57,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
         destinationLanguageTv.setMovementMethod(new ScrollingMovementMethod());
         sourceLanguageChooseBtn = findViewById(R.id.sourceLangSelector);
         destinationLanguageChoseBtn = findViewById(R.id.targetLangSelector);
+        btn_camera = findViewById(R.id.translateBtn11);
+        btn_gallery = findViewById(R.id.buttonGalery);
         translateBtn = findViewById(R.id.translateBtn);
+
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait");
@@ -85,6 +90,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validateData();
+            }
+        });
+
+        btn_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //To take picture from camera
+
+                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(takePicture, 0);//zero can be replaced with any action code
+
+            }
+        });
+        btn_gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //To pick photo from gallery
+
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto, 1);//one can be replaced with any action code
             }
         });
     }
@@ -197,6 +223,4 @@ public class MainActivity extends AppCompatActivity {
         }
         Collections.sort(languageArrayList,(a,b)->a.languageTitle.compareTo(b.languageTitle));
     }
-
-
 }

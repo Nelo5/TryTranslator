@@ -13,7 +13,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:hint="Source Text" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -74,17 +73,46 @@
         android:layout_weight="1"
         android:freezesText="true"
         android:scrollbars="vertical"/>
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/translateBtn"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:textAlignment="center"
-        android:text="Translate"
-        android:layout_weight="0">
-    </Button>
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/translateBtn11"
+            style="@style/IconOnlyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text=""
+            app:icon="@drawable/baseline_photo_camera_24"
+            android:layout_weight="0" >
+        </Button>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/translateBtn"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:text="Translate"
+            android:layout_weight="2"
+            android:layout_gravity="center">
+        </Button>
+
+        <Button
+            android:id="@+id/buttonGalery"
+            style="@style/IconOnlyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="0"
+            android:text=""
+            app:icon="@drawable/baseline_collections_24">
+        </Button>
+    </LinearLayout>
+
 
 </LinearLayout>
