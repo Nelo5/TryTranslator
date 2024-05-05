@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         destinationLanguageTv.setMovementMethod(new ScrollingMovementMethod());
         sourceLanguageChooseBtn = findViewById(R.id.sourceLangSelector);
         destinationLanguageChoseBtn = findViewById(R.id.targetLangSelector);
-        btn_camera = findViewById(R.id.translateBtn11);
+        btn_camera = findViewById(R.id.buttonCamera);
         btn_gallery = findViewById(R.id.buttonGalery);
         translateBtn = findViewById(R.id.translateBtn);
 
