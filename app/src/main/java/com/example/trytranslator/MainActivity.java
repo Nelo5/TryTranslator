@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
@@ -19,13 +21,20 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.mlkit.common.model.DownloadConditions;
 import com.google.mlkit.nl.translate.TranslateLanguage;
 import com.google.mlkit.nl.translate.Translation;
 import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
+import com.google.mlkit.vision.text.TextRecognizerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -222,5 +231,59 @@ public class MainActivity extends AppCompatActivity {
             languageArrayList.add(modelLanguage);
         }
         Collections.sort(languageArrayList,(a,b)->a.languageTitle.compareTo(b.languageTitle));
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch (requestCode) {
+            case 0:
+                if (resultCode == RESULT_OK) {
+                    Bundle extras = imageReturnedIntent.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    detectText(imageBitmap);
+                    //imageView.setImageBitmap(imageBitmap);
+                }
+
+                break;
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    try {
+                        Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                        detectText(imageBitmap);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    //imageView.setImageURI(selectedImage);
+                }
+                break;
+        }
+    }
+    private void detectText(Bitmap selectedImage){
+        InputImage image = InputImage.fromBitmap(selectedImage,0);
+        TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        Task<Text> result = recognizer.process(image).addOnSuccessListener(new OnSuccessListener<Text>() {
+            @Override
+            public void onSuccess(@NonNull Text text) {
+                StringBuilder result = new StringBuilder();
+                for (Text.TextBlock block : text.getTextBlocks()){
+                    String blockText = block.getText();
+                    for (Text.Line line:block.getLines()){
+                        String lineText = line.getText();
+                        for (Text.Element elemet:line.getElements()){
+                            String elementText = elemet.getText();
+                            result.append(elementText+" ");
+                        }
+                        result.append("\n");
+                    }
+                }
+                sourceLanguageEt.setText(result);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+            }
+        });
     }
 }
